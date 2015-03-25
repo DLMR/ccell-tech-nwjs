@@ -1,0 +1,10 @@
+{
+  "name": "nw-demo-builder",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "node node-webkit-builder.js"
+  },
+  "devDependencies": {
+    "node-webkit-builder": "^1.0.11"
+  }
+}

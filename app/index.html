@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CCell Tech Demo</title>
+    <script src="./jquery-2.1.3.min.js"></script>
+    <script>
+    var gui = require('nw.gui');
+    const applicationName = 'CCell Tech Demo';
+
+    // Add a tray icon, because why not?
+    // TODO : Should not "add" for every created window and not depend on first window
+
+    var tray = new gui.Tray({
+      title: applicationName,
+      icon: 'app.png',
+      tooltip: applicationName
+    });
+
+    tray.on('click', function (event) {
+      alert('This would also show the menu on a Mac');
+    });
+
+    // Give it a menu
+    var menu = new gui.Menu();
+    menu.append(new gui.MenuItem({
+      label: 'New window',
+      click: function () {
+        openWindow();
+      }
+    }));
+    menu.append(new gui.MenuItem({
+      label: 'Exit',
+      click: function () {
+        exit();
+      }
+    }));
+    tray.menu = menu;
+
+
+    var gui = require('nw.gui');
+
+    var menu = new gui.Menu({ type: 'menubar' });
+    menu.append(new gui.MenuItem({
+      label: 'File',
+      submenu: new gui.Menu()
+    }));
+
+    menu.items[0].submenu.append(new gui.MenuItem({
+      label: 'New',
+      click: function () {
+        openWindow();
+      }
+    }));
+    menu.items[0].submenu.append(new gui.MenuItem({
+      label: 'Close',
+      click: function () {
+        gui.Window.get().close();
+      }
+    }));
+    menu.items[0].submenu.append(new gui.MenuItem({
+      type: 'separator'
+    }));
+    menu.items[0].submenu.append(new gui.MenuItem({
+      label: 'Exit',
+      click: function () {
+        exit();
+      }
+    }));
+
+    gui.Window.get().menu = menu;
+
+    function setInstance() {
+      gui.Window.get().focus();
+      var instance = process.mainModule.exports.callback();
+      document.getElementById('instance').innerHTML = instance;
+
+      document.addEventListener('keyup', function (e) {
+        if (e.keyCode == 'N'.charCodeAt(0) && e.ctrlKey) {
+        	openWindow();
+        }
+      });
+    }
+
+    function openWindow() {
+      var newWin = gui.Window.open('index.html', {
+        "toolbar": false,
+        "position": "center",
+        "width": 360,
+        "height": 300,
+        "min_width": 220,
+        "min_height": 220
+      });
+
+      newWin.on('focus', function() {
+        console.log('New window is focused');
+      });
+    }
+
+    function exit() {
+      gui.App.quit();
+    }
+
+    </script>
+  </head>
+  <body onload="setInstance()">
+    <div style="text-align:center;">
+      <h1 style="-webkit-app-region: drag">CCell Tech Demo</h1>
+      <img style="width: 100%" src="https://www.netlight.com/wp-content/themes/new_netlight_main/static/images/logo.png"/>
+      <p>We are using node.js <script>document.write(process.version)</script>
+      and nw.js <script>document.write(process.versions['node-webkit'])</script>.</p>
+      <span id="instance"></span>
+    </div>
+    <script>
+
+      // jQuery Test
+      console.log($('#instance').html);
+
+      var path = './';
+      var fs = require('fs');
+
+      fs.watch(path, function() {
+        if (location)
+          location.reload();
+      });
+    </script>
+  </body>
+</html>

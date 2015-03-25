@@ -1,0 +1,22 @@
+{
+  "name": "nw-demo",
+  "version": "0.0.1",
+  "main": "index.html",
+  "node-main": "server.js",
+  "scripts": {
+    "start": "nw"
+  },
+  "window": {
+    "toolbar": false,
+    "resizable": true,
+    "position": "center",
+    "icon": "app.png",
+    "width": 360,
+    "height": 300,
+    "min_width": 220,
+    "min_height": 220
+  },
+  "devDependencies": {
+    "nw": "^0.12.0"
+  }
+}
